@@ -1,0 +1,9 @@
+
+
+/* Media query for screens smaller than a certain width */
+@media screen and (max-width: 768px) {
+  .responsive-toast-container {
+    /* Adjust styles for smaller screens */
+    width: 40%; /* Example adjustment */
+  }
+}
