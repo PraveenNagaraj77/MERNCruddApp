@@ -4,50 +4,49 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-
-
 function AddPost() {
-  const navigate = useNavigate()
-  const[title,SetTitle] = useState()
-  const[description,SetDescription] = useState()
-  const[loading,SetLoading] = useState(false)
+  const navigate = useNavigate();
+  const [title, SetTitle] = useState();
+  const [description, SetDescription] = useState();
+  const [loading, SetLoading] = useState(false);
 
-  const onSubmitHandler = async(e) =>{
-    e.preventDefault()
-    if(!title){
-      alert("Please Enter Title")
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    if (!title) {
+      alert("Please Enter Title");
       return;
     }
-    if(!description){
-      alert("Please Enter Description")
+    if (!description) {
+      alert("Please Enter Description");
       return;
     }
-    try{
-      SetLoading(true)
-      const response = await fetch("http://localhost:5000/api/createpost" , {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({title,description})
-      });
-      if(response.ok){
+    try {
+      SetLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/createpost`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, description }),
+        }
+      );
+      if (response.ok) {
         console.log(response);
-        const {message} = await response.json()
-        navigate("/",{state:{message}})
+        const { message } = await response.json();
+        navigate("/", { state: { message } });
       }
-    }catch(error){
-
-    }finally{
-      SetLoading(false)
-      SetTitle("")
-      SetDescription("")
+    } catch (error) {
+    } finally {
+      SetLoading(false);
+      SetTitle("");
+      SetDescription("");
     }
-
-  }
+  };
 
   return (
     <Container className="mt-5">
@@ -82,15 +81,19 @@ function AddPost() {
             </Form.Group>
 
             <Button variant="dark" type="button">
-                <Link to={"/"} style={{textDecoration:"none",color:"white"}}>Cancel</Link>
+              <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
+                Cancel
+              </Link>
             </Button>
 
-
-              {!loading && <Button type="submit" className="mx-2">
+            {!loading && (
+              <Button type="submit" className="mx-2">
                 Create
-              </Button>}
+              </Button>
+            )}
 
-              {loading && <Button variant="primary" className="mx-2" disabled>
+            {loading && (
+              <Button variant="primary" className="mx-2" disabled>
                 <Spinner
                   as="span"
                   animation="grow"
@@ -99,7 +102,8 @@ function AddPost() {
                   aria-hidden="true"
                 />
                 Loading...
-              </Button>}
+              </Button>
+            )}
           </Form>
         </Col>
       </Row>

@@ -32,7 +32,7 @@ const UpdatePost = ({ id }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:5000/api/updatepost/${params.postid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/updatepost/${params.postid}`,
         {
           method: "PUT",
           headers: {
@@ -47,9 +47,9 @@ const UpdatePost = ({ id }) => {
         setDescription("");
         setIsError(false);
         navigate("/", { state: { message: "Post Updated Successfully" } });
-      }else{
-        const errResponse = await response.json()
-        throw new Error(errResponse.message)
+      } else {
+        const errResponse = await response.json();
+        throw new Error(errResponse.message);
       }
     } catch (error) {
       setShow(true);
@@ -63,7 +63,7 @@ const UpdatePost = ({ id }) => {
   const getSinglePost = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/post/${params.postid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/post/${params.postid}`,
         {
           headers: {
             "Content-Type": "application/json",
